@@ -5,6 +5,11 @@ class AuthenticationUseCase {
 
   AuthenticationUseCase({required this.repository});
 
-  Future<bool> signIn(String email, String password) async {}
-  Future<bool> signOut() async {}
+  Future<bool> signIn(String email, String password) async {
+    throw UnimplementedError();
+  }
+
+  Future<bool> signOut() async {
+    throw UnimplementedError();
+  }
 }
