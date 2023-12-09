@@ -1,10 +1,15 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_project/core/di/injection.dart';
+import 'package:flutter_base_project/core/router/app_router.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+
+import 'generated/l10n.dart';
 
 void main() async {
   // Ensure Flutter binding
@@ -20,24 +25,13 @@ void main() async {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  // Initialize Easy Localization
-  await EasyLocalization.ensureInitialized();
-
   // Initialize Crashlytics
   if (!kDebugMode) {
     // Pass all uncaught errors to Crashlytics.
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
 
-  runApp(EasyLocalization(
-    supportedLocales: [
-      Locale('en', 'US'),
-      Locale('vi', 'VI')
-    ], // Add your supported locales here
-    path: 'assets/translations', // Path to your translations
-    fallbackLocale: Locale('en', 'US'),
-    child: MyApp(),
-  ));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -45,17 +39,35 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    final appRouter = injector.get<AppRouter>();
+
+    return MaterialApp.router(
       title: 'Flutter Base Project',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      routerDelegate: appRouter.delegate(
+        deepLinkBuilder: (deepLink) {
+          return const DeepLink([]);
+        },
+        navigatorObservers: () => [NavigatorObserver()],
+      ),
+      routeInformationParser: appRouter.defaultRouteParser(),
+      debugShowCheckedModeBanner: false,
+      supportedLocales: S.delegate.supportedLocales,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,3 +80,16 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+   "JavascriptBridge"
+      "LinkNowWithPermission"
+        "Disconnect"
+     "observer"
+      "OpenWebviewInWebview"
+       "CloseCurrentWebview"
+         "EditPermission"
+   "LinkPermissionPhoto"
