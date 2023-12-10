@@ -80,16 +80,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-   "JavascriptBridge"
-      "LinkNowWithPermission"
-        "Disconnect"
-     "observer"
-      "OpenWebviewInWebview"
-       "CloseCurrentWebview"
-         "EditPermission"
-   "LinkPermissionPhoto"
