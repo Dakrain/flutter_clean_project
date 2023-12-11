@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_project/core/di/injection.dart';
 import 'package:flutter_base_project/core/router/app_router.dart';
+import 'package:flutter_base_project/firebase_options.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
@@ -16,10 +17,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Firebase
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Initialize GetIt for dependency injection
   GetIt getIt = GetIt.instance;
+
+  await inject();
 
   // Initialize Flutter Local Notifications
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -47,9 +52,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routerDelegate: appRouter.delegate(
-        deepLinkBuilder: (deepLink) {
-          return const DeepLink([]);
-        },
+        // deepLinkBuilder: (deepLink) {
+        //   return const DeepLink([]);
+        // },
         navigatorObservers: () => [NavigatorObserver()],
       ),
       routeInformationParser: appRouter.defaultRouteParser(),
