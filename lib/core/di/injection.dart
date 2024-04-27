@@ -8,6 +8,5 @@ import 'injection.config.dart';
 GetIt injector = GetIt.instance;
 
 @InjectableInit(initializerName: 'inject')
-FutureOr<void> inject({String? environment = Environment.dev}) {
-  return injector.inject(environment: environment);
-}
+FutureOr<void> inject({String? environment = Environment.dev}) =>
+    injector.inject(environment: environment);
