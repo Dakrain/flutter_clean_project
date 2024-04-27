@@ -7,6 +7,7 @@ import 'package:flutter_base_project/core/di/injection.dart';
 import 'package:flutter_base_project/core/router/app_router.dart';
 import 'package:flutter_base_project/firebase_options.dart';
 import 'package:flutter_base_project/presentation/utilities/network_check_utilities.dart';
+import 'package:flutter_base_project/presentation/utilities/toast_utilities.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -33,15 +34,16 @@ void main() async {
       FlutterLocalNotificationsPlugin();
 
   NetworkCheckUtilities networkCheckUtilities = NetworkCheckUtilities();
-  networkCheckUtilities.listenToNetworkChange(noNetworkCallback: () {
-    Fluttertoast.showToast(
-        msg: "Network Unavailable. Please check your connection and try again.",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  });
+  networkCheckUtilities.listenToNetworkChange(
+      noNetworkCallback: () => ToastUtilities.showToast(
+            message:
+                "Network Unavailable. Please check your connection and try again.",
+            toastLength: Toast.LENGTH_LONG,
+          ),
+      gotNetworkCallback: () => ToastUtilities.showToast(
+            message: "Network recovered.",
+            toastLength: Toast.LENGTH_LONG,
+          ));
 
   // Initialize Crashlytics
   if (!kDebugMode) {

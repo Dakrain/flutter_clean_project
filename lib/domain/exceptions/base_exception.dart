@@ -12,7 +12,7 @@ class AppException extends BaseException {
   AppException({required super.message, required super.code, super.stackTrace});
 
   // Using the error constants here
-  factory AppException.unknow({StackTrace? stackTrace}) {
+  factory AppException.unknown({StackTrace? stackTrace}) {
     return AppException(
       message: ErrorConstants.defaultErrorCode,
       code: ErrorConstants.defaultErrorCode,
