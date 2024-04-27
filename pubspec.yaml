@@ -65,6 +65,7 @@ dependencies:
   hive_flutter: ^1.1.0
   dartz: ^0.10.1
   logger: ^2.0.2+1
+  fluttertoast: ^8.2.5
 
 # Development dependencies
 dev_dependencies:

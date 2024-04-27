@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_project/core/di/injection.dart';
 import 'package:flutter_base_project/core/router/app_router.dart';
 import 'package:flutter_base_project/firebase_options.dart';
+import 'package:flutter_base_project/presentation/utilities/network_check_utilities.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 
 import 'generated/l10n.dart';
@@ -30,13 +32,24 @@ void main() async {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  NetworkCheckUtilities networkCheckUtilities = NetworkCheckUtilities();
+  networkCheckUtilities.listenToNetworkChange(noNetworkCallback: () {
+    Fluttertoast.showToast(
+        msg: "Network Unavailable. Please check your connection and try again.",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  });
+
   // Initialize Crashlytics
   if (!kDebugMode) {
     // Pass all uncaught errors to Crashlytics.
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -66,22 +79,6 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter Base Project'),
-      ),
-      body: Center(
-        child: Text('Welcome to Flutter Base Project'),
-      ),
     );
   }
 }
